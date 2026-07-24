@@ -4,6 +4,8 @@ Comparing human ECoG face-selective cortex to CNN (VGG-16) representations under
 
 **Team:** Jana, Mariana Nicoli, Rodrigo Castillo, Alexandra Sheridan, Elide Portocarrero
 
+This project was completed as part of [Neuromatch Academy: Computational Neuroscience](https://compneuro.neuromatch.io/).
+
 ---
 
 ## Overview
