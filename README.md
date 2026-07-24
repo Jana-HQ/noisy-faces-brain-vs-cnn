@@ -1,6 +1,6 @@
 ## Noise-Robust Face Representations: Comparing Human ECoG to CNN Representations of Noisy Faces
 
-Comparing human ECoG face-selective cortex to CNN (VGG-16) representations under visual noise — RSA, noise injection, and fine-tuning for face detection.
+Comparing human ECoG face-selective electrodes to CNN (VGG-16) representations under visual noise — RSA, noise injection, and fine-tuning for face detection.
 
 **Team:** Jana, Mariana Nicoli, Rodrigo Castillo, Alexandra Sheridan, Elide Portocarrero
 
