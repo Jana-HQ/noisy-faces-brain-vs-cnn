@@ -23,7 +23,7 @@ We compare human electrocorticography (ECoG) recordings from face-selective, ven
 ## Methods
 
 1. **Group electrodes and CNN layers.**
-   - ECoG electrodes split into three groups: **early visual**, **ventral temporal** (anatomical, from electrode coordinates), and **face-selective** (functional — above-chance face-vs-house discrimination via cross-validated logistic regression).
+   - ECoG electrodes split into three groups: **early visual**, **ventral temporal** (anatomical, from electrode coordinates), and **face-selective** (functional — above-chance (AUC = 0.55) face-vs-house discrimination via cross-validated logistic regression).
    - CNN: VGG-16 (ImageNet-pretrained), read out at the 5 pooling layers and 2 fully-connected layers.
 2. **Decision-based collapse threshold.** For each electrode group and each CNN layer, a classifier's face-vs-house AUC is tracked across noise levels; the threshold θ is the noise level where AUC drops below a fixed criterion.
 3. **Representational similarity analysis (RSA).** For each subject/electrode-group and each CNN layer, we build a representational dissimilarity matrix (RDM) over all 42 conditions (21 noise levels × 2 categories), using **cross-validated (crossnobis) distance** as the one consistent metric on both the ECoG and CNN sides. ECoG–CNN correspondence is the Spearman correlation between RDMs, averaged across subjects.
