@@ -12,7 +12,7 @@ This project was completed as part of [Neuromatch Academy: Computational Neurosc
 
 How do brain regions and CNN layers correlate during a noisy face-detection task — and how does injecting noise into the CNN, or fine-tuning it for face recognition, change that relationship?
 
-We compare human electrocorticography (ECoG) recordings from face-selective, ventral-temporal, and early-visual cortex to the layer-wise representations of a VGG-16 CNN, across 21 levels of phase-scrambled visual noise (0–100%). We repeat the comparison for three CNN variants — a clean ImageNet-trained network, a noise-injected version, and one fine-tuned for face detection — to test whether training objective and robustness shape how "brain-like" a CNN's representations are under noise.
+We compare human electrocorticography (ECoG) recordings from face-selective electrodes, ventral-temporal, and early-visual cortex electrodes to the layer-wise representations of a VGG-16 CNN, across 21 levels of phase-scrambled visual noise (0–100%). We repeat the comparison for three CNN variants — a clean ImageNet-trained network, a noise-injected version, and one fine-tuned for face detection — to test whether training objective and robustness shape how "brain-like" a CNN's representations are under noise.
 
 ## Dataset & Task
 
