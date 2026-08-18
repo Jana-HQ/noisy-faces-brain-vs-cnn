@@ -1,0 +1,12 @@
+numpy
+pandas
+scipy
+scikit-learn
+matplotlib
+opencv-python-headless
+requests
+torch
+torchvision
+nilearn
+nimare
+statsmodels

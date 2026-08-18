@@ -1,3 +1,5 @@
+<p align="left"><img src="assets/neuromatch_logo.png" width="220" alt="Neuromatch Academy logo"></p>
+
 ## Noise-Robust Face Representations: Comparing Human ECoG to CNN Representations of Noisy Faces
 
 Comparing human ECoG face-selective electrodes to CNN (VGG-16) representations under visual noise — RSA, noise injection, and fine-tuning for face detection.
@@ -5,6 +7,7 @@ Comparing human ECoG face-selective electrodes to CNN (VGG-16) representations u
 **Team:** Jana, Mariana Nicoli, Rodrigo Castillo, Alexandra Sheridan, Elide Portocarrero
 
 This project was completed as part of [Neuromatch Academy: Computational Neuroscience](https://compneuro.neuromatch.io/).
+See the project presentation: [`docs/presentation/Neuromatch Project Presentation.pdf`](docs/presentation/Neuromatch%20Project%20Presentation.pdf) ([.pptx](docs/presentation/Neuromatch%20Project%20Presentation.pptx)).
 
 ---
 
@@ -20,11 +23,19 @@ We compare human electrocorticography (ECoG) recordings from face-selective elec
 - **Base stimuli:** 38 face and house images, phase-scrambled via FFT into 21 noise levels (0–100%, 5% steps). Noisy images are recombined with the **average magnitude spectrum across both categories**, so every stimulus shares the same power spectrum and only phase noise varies — this prevents the CNN from decoding category identity from residual spectral structure alone (verified: face-vs-house AUC on 100%-noise images ≈ chance).
 - **House images:** [ted8080, *House Prices and Images – SoCal*, Kaggle](https://www.kaggle.com/datasets/ted8080/house-prices-and-images-socal), resolution-matched to the face set.
 
+<p align="center"><img src="figures/01_stimulus_construction_fig01.png" width="800" alt="Face and house stimuli at increasing phase-scramble noise levels"></p>
+
 ## Methods
 
 1. **Group electrodes and CNN layers.**
    - ECoG electrodes split into three groups: **early visual**, **ventral temporal** (anatomical, from electrode coordinates), and **face-selective** (functional — above-chance (AUC = 0.55) face-vs-house discrimination via cross-validated logistic regression).
    - CNN: VGG-16 (ImageNet-pretrained), read out at the 5 pooling layers and 2 fully-connected layers.
+
+   <p align="center">
+     <img src="assets/earlyVis_ventral.gif" width="380" alt="Early visual (blue) vs. ventral temporal (yellow) electrodes on the brain surface">
+     <img src="assets/face_selective.gif" width="380" alt="Face-selective (red) electrodes on the brain surface">
+   </p>
+   <p align="center"><em>Left: early visual (blue) vs. ventral temporal (yellow) electrodes. Right: face-selective electrodes (red).</em></p>
 2. **Decision-based collapse threshold.** For each electrode group and each CNN layer, a classifier's face-vs-house AUC is tracked across noise levels; the threshold θ is the noise level where AUC drops below a fixed criterion.
 3. **Representational similarity analysis (RSA).** For each subject/electrode-group and each CNN layer, we build a representational dissimilarity matrix (RDM) over all 42 conditions (21 noise levels × 2 categories), using **cross-validated (crossnobis) distance** as the one consistent metric on both the ECoG and CNN sides. ECoG–CNN correspondence is the Spearman correlation between RDMs, averaged across subjects.
 4. **Noise sensitivity and latency.** Correspondence is re-examined within sliding noise windows (does it break down at a particular noise level?) and within sliding time windows post-stimulus (does the peak-correspondence latency shift under noise?).
@@ -41,4 +52,28 @@ We compare human electrocorticography (ECoG) recordings from face-selective elec
 
 ## Repository Structure
 
-All the analysis work is currently in one notebook `ecog_cnn_face_noise_analysis.ipynb`. We're working on cleaning it up.
+```
+notebooks/     Analysis pipeline, numbered 00-11 and meant to be run in that order.
+                 00-02  data setup, stimulus construction, electrode characterization
+                 03-06  ECoG/CNN representational similarity analysis (RSA)
+                 07-09  per-electrode correspondence and collapse thresholds
+                 10-11  CNN noise injection and the VGGFace (fine-tuned) comparison
+src/            Shared preprocessing, statistics, and RDM-building functions.
+docs/           Write-up (docs/report/) and the Neuromatch presentation (docs/presentation/).
+assets/         Static images/GIFs used in this README.
+data/           Downloaded inputs (ECoG recordings, stimulus images, CNN weights). Gitignored.
+cache/          Intermediate results passed between notebooks. Gitignored.
+figures/        Every plot, saved as PNG when produced. Gitignored.
+requirements.txt
+```
+
+Each notebook loads what it needs from `cache/` (saved by the notebook before it), 
+so run them in numeric order the first time; after that, re-running a
+single later notebook is fine as long as the earlier ones' cache files already exist. 
+
+Data downloads (ECoG recordings, stimulus images, CNN weights) happen automatically into `data/` the
+first time a notebook needs them — no manual setup, but expect the first pass through `00`,
+`01`, `05`, and `11` to take a while. 
+
+Notebooks `05`, `10`, and `11` run CNN forward passes and
+use CUDA automatically if available, falling back to CPU otherwise.
